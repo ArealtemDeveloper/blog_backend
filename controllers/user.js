@@ -1,1 +1,17 @@
-//TODO
+import { db } from "../db.js";
+
+export const getUser = (req, res) => {
+    const token = req.cookies.access_token;
+    if (!token) return res.status(401).json("Not authenticated!");
+
+    jwt.verify(token, "jwtkey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+
+    const q = "SELECT * FROM users WHERE id =?";
+    db.query(q, [req.params.id], (err, data) => {
+        if (err) return res.status(500).send(err);
+        const { password, ...user} = data[0];
+        return res.status(200).json(user);
+    });
+})
+}
