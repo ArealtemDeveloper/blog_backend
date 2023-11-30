@@ -13,6 +13,15 @@ export const getPosts = (req, res) => {
   });
 };
 
+export const getPostsByPage = (req, res) => {
+  const q = "SELECT * FROM posts LIMIT ? OFFSET ?";
+
+  db.query(q, [+req.query.limit, +req.query.offset], (err, data) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).json(data);
+  })
+}
+
 export const getPostsByQuery = (req, res) => {
   const q = "SELECT * FROM `posts` WHERE MATCH(posts.title, posts.desc) AGAINST (?) LIMIT 0,100"
   db.query(q, [req.body.text], (err, data) => {
