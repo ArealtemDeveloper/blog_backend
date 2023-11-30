@@ -13,6 +13,14 @@ export const getPosts = (req, res) => {
   });
 };
 
+export const getPostsByQuery = (req, res) => {
+  const q = "SELECT * FROM `posts` WHERE MATCH(posts.title, posts.desc) AGAINST (?) LIMIT 0,100"
+  db.query(q, [req.body.text], (err, data) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).json(data);
+  })
+}
+
 export const getPost = (req, res) => {
   const q =
     "SELECT p.id, `username`, `title`, `desc`, `extended`, p.img, u.img AS userImg, `cat`,`date` FROM users u JOIN posts p ON u.id = p.uid WHERE p.id = ? ";
