@@ -50,6 +50,7 @@ export const addPost = (req, res) => {
       req.body.title,
       req.body.desc,
       req.body.img,
+      req.body.extended,
       req.body.cat,
       req.body.date,
       req.body.uid,
