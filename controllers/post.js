@@ -24,7 +24,7 @@ export const getPostsByPage = (req, res) => {
 
 export const getPostsByQuery = (req, res) => {
   const q = "SELECT * FROM `posts` WHERE MATCH(posts.title, posts.desc) AGAINST (?) LIMIT 0,100"
-  db.query(q, [req.body.text], (err, data) => {
+  db.query(q, [req.query.text], (err, data) => {
     console.log(req)
     if (err) return res.status(500).send(err);
     return res.status(200).json(data);
